@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>神元クリニック | 内科・循環器内科</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a2e44;
+      --teal: #2a7d7b;
+      --teal-light: #3a9d9b;
+      --sand: #f5f0e8;
+      --white: #ffffff;
+      --gray: #6b7280;
+      --text: #2d3748;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.8;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav-logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--navy); text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--gray);
+      font-size: 0.85rem; letter-spacing: 0.05em;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: linear-gradient(135deg, var(--navy) 0%, #2a4a6b 50%, var(--teal) 100%);
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 3rem; padding-top: 80px;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.9);
+      font-size: 0.75rem; letter-spacing: 0.15em;
+      padding: 0.4rem 1rem; border-radius: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 300; color: var(--white);
+      line-height: 1.4; letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title strong { font-weight: 600; display: block; }
+    .hero-sub {
+      color: rgba(255,255,255,0.75);
+      font-size: 1rem; max-width: 480px;
+      margin-bottom: 2.5rem; font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.85rem 2rem; border-radius: 0.3rem;
+      font-size: 0.9rem; letter-spacing: 0.05em;
+      text-decoration: none; transition: all 0.3s;
+      font-family: 'Noto Sans JP', sans-serif;
+      cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: var(--white); color: var(--navy);
+      font-weight: 500;
+    }
+    .btn-primary:hover { background: var(--sand); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── Section base ── */
+    section { padding: 6rem 3rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      color: var(--teal); text-transform: uppercase;
+      margin-bottom: 0.8rem; font-weight: 500;
+    }
+    .section-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 300; color: var(--navy);
+      margin-bottom: 1rem; letter-spacing: 0.02em;
+    }
+    .section-divider {
+      width: 40px; height: 2px;
+      background: var(--teal); margin-bottom: 2.5rem;
+    }
+
+    /* ── About ── */
+    #about { background: var(--sand); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .about-text p {
+      color: var(--gray); font-weight: 300;
+      margin-bottom: 1.2rem; font-size: 0.95rem;
+    }
+    .about-features {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.2rem; margin-top: 2rem;
+    }
+    .feature-card {
+      background: var(--white); padding: 1.4rem;
+      border-radius: 0.5rem;
+      border-left: 3px solid var(--teal);
+    }
+    .feature-card h4 {
+      font-size: 0.85rem; color: var(--navy);
+      font-weight: 500; margin-bottom: 0.3rem;
+    }
+    .feature-card p { font-size: 0.8rem; color: var(--gray); margin: 0; }
+
+    /* ── Services ── */
+    #services { background: var(--white); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2rem; margin-top: 1rem;
+    }
+    .service-card {
+      padding: 2.5rem 2rem;
+      border: 1px solid #e5e7eb; border-radius: 0.5rem;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--teal); transform: scaleX(0);
+      transition: transform 0.3s; transform-origin: left;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .service-card h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--navy); margin-bottom: 0.8rem;
+    }
+    .service-card p { font-size: 0.875rem; color: var(--gray); font-weight: 300; }
+
+    /* ── Hours ── */
+    #hours { background: var(--navy); }
+    #hours .section-label { color: var(--teal-light); }
+    #hours .section-title { color: var(--white); }
+    #hours .section-divider { background: var(--teal-light); }
+    .hours-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: start;
+    }
+    .hours-table { width: 100%; border-collapse: collapse; }
+    .hours-table th {
+      text-align: left; padding: 0.8rem 1rem;
+      font-size: 0.8rem; letter-spacing: 0.1em;
+      color: var(--teal-light); font-weight: 500;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .hours-table td {
+      padding: 0.9rem 1rem; color: rgba(255,255,255,0.8);
+      font-size: 0.9rem; font-weight: 300;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .badge {
+      display: inline-block;
+      background: var(--teal); color: white;
+      font-size: 0.7rem; padding: 0.2rem 0.6rem;
+      border-radius: 1rem; margin-left: 0.5rem;
+    }
+    .hours-notes { margin-top: 2rem; }
+    .hours-notes p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem; font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    .hours-notes p::before { content: '* '; color: var(--teal-light); }
+
+    /* ── Access ── */
+    #access { background: var(--sand); }
+    .access-grid {
+      display: grid; grid-template-columns: 1fr 1.5fr;
+      gap: 4rem; align-items: start;
+    }
+    .access-info dt {
+      font-size: 0.75rem; letter-spacing: 0.1em;
+      color: var(--teal); margin-top: 1.5rem;
+      margin-bottom: 0.3rem; font-weight: 500;
+    }
+    .access-info dd {
+      font-size: 0.95rem; color: var(--text);
+      font-weight: 300;
+    }
+    .map-container {
+      border-radius: 0.8rem; overflow: hidden;
+      height: 350px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+    .map-container iframe { width: 100%; height: 100%; border: none; }
+
+    /* ── Online ── */
+    #online { background: var(--teal); }
+    #online .section-label { color: rgba(255,255,255,0.7); }
+    #online .section-title { color: var(--white); }
+    #online .section-divider { background: rgba(255,255,255,0.4); }
+    .online-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 1rem;
+    }
+    .online-card {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 0.5rem; padding: 2rem;
+      backdrop-filter: blur(5px);
+    }
+    .online-card h3 {
+      color: var(--white); font-size: 1rem;
+      font-weight: 500; margin-bottom: 0.8rem;
+    }
+    .online-card p { color: rgba(255,255,255,0.8); font-size: 0.875rem; font-weight: 300; }
+
+    /* ── Footer ── */
+    footer {
+      background: #0f1e2e; color: rgba(255,255,255,0.5);
+      padding: 3rem; text-align: center;
+    }
+    footer .footer-logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.2rem; color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    footer p { font-size: 0.8rem; font-weight: 300; }
+    footer a { color: var(--teal-light); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .hours-grid, .access-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .services-grid, .online-grid { grid-template-columns: 1fr; }
+      .about-features { grid-template-columns: 1fr; }
+      .hero-inner { padding: 80px 1.5rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="#hero">神元クリニック</a>
+  <ul class="nav-links">
+    <li><a href="#about">クリニックについて</a></li>
+    <li><a href="#services">診療内容</a></li>
+    <li><a href="#hours">診療時間</a></li>
+    <li><a href="#access">アクセス</a></li>
+    <li><a href="#online">オンライン診療</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">内科 ・ 循環器内科</span>
+    <h1 class="hero-title">
+      <strong>神元クリニック</strong>
+      地域に寄り添う、<br>かかりつけ医として。
+    </h1>
+    <p class="hero-sub">
+      大阪府堺市にて、内科・循環器内科を中心に地域の皆様の健康をサポートしています。オンライン診療にも対応しています。
+    </p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#hours">診療時間を確認する</a>
+      <a class="btn btn-outline" href="#online">オンライン診療</a>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">About</p>
+        <h2 class="section-title">患者さまに<br>寄り添う医療を</h2>
+        <div class="section-divider"></div>
+        <p>神元クリニックは、大阪府堺市中区において、内科・循環器内科を中心に地域医療を提供しております。</p>
+        <p>高血圧・心不全・心臓病をはじめ、日常的な体調管理から専門的な循環器疾患まで、幅広く対応しております。患者さまのお話をしっかりとお聞きし、丁寧な診療を心がけています。</p>
+        <p>発熱外来にも対応しており（大阪府指定第二種協力指定医療機関）、地域の皆様が安心して受診できる環境を整えています。</p>
+      </div>
+      <div class="about-features">
+        <div class="feature-card">
+          <h4>🏥 発熱外来対応</h4>
+          <p>大阪府指定第二種協力指定医療機関</p>
+        </div>
+        <div class="feature-card">
+          <h4>💊 電子処方箋</h4>
+          <p>電子処方箋の発行に対応</p>
+        </div>
+        <div class="feature-card">
+          <h4>📱 スマート問診</h4>
+          <p>Ubieによるスマートフォン問診</p>
+        </div>
+        <div class="feature-card">
+          <h4>🥗 栄養指導</h4>
+          <p>オンライン栄養指導サービス</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="container">
+    <p class="section-label">Services</p>
+    <h2 class="section-title">診療内容</h2>
+    <div class="section-divider"></div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🩺</div>
+        <h3>内科</h3>
+        <p>風邪・発熱・腹痛など一般的な内科疾患から、生活習慣病（高血圧・糖尿病・脂質異常症）の管理・治療まで幅広く対応します。</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">❤️</div>
+        <h3>循環器内科</h3>
+        <p>高血圧・心不全・狭心症・不整脈など、心臓・血管に関わる疾患を専門的に診察します。心電図・超音波検査なども行います。</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🌡️</div>
+        <h3>発熱外来</h3>
+        <p>発熱症状のある患者さまも安心して受診いただけます。大阪府指定の協力指定医療機関として感染症対応にも取り組んでいます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hours -->
+<section id="hours">
+  <div class="container">
+    <p class="section-label">Hours</p>
+    <h2 class="section-title">診療時間</h2>
+    <div class="section-divider"></div>
+    <div class="hours-grid">
+      <div>
+        <table class="hours-table">
+          <thead>
+            <tr>
+              <th>曜日</th>
+              <th>午前（9:00〜12:00）</th>
+              <th>午後（17:00〜19:00）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>月曜日</td><td>○</td><td>○</td></tr>
+            <tr><td>火曜日</td><td>○</td><td>—</td></tr>
+            <tr><td>水曜日</td><td>○</td><td>○</td></tr>
+            <tr><td>木曜日</td><td>○</td><td>—</td></tr>
+            <tr><td>金曜日</td><td>○</td><td>○</td></tr>
+            <tr><td>土曜日</td><td>○</td><td>—</td></tr>
+            <tr><td>日曜・祝日</td><td colspan="2">休診</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="hours-notes">
+        <p>受付は診療終了の30分前までとなります</p>
+        <p>午後診は月・水・金曜日のみです</p>
+        <p>発熱症状のある方はお電話でご確認ください</p>
+        <p>オンライン診療（デジスマ診療）もご利用いただけます</p>
+        <br>
+        <p style="color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-top: 1rem;">
+          📞 <a href="tel:0722357711" style="color: white; font-weight: 500;">072-235-7711</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Access -->
+<section id="access">
+  <div class="container">
+    <p class="section-label">Access</p>
+    <h2 class="section-title">アクセス</h2>
+    <div class="section-divider"></div>
+    <div class="access-grid">
+      <dl class="access-info">
+        <dt>クリニック名</dt>
+        <dd>神元クリニック</dd>
+        <dt>住所</dt>
+        <dd>〒599-8233<br>大阪府堺市中区大野芝町180<br>神工ビル2F</dd>
+        <dt>電話</dt>
+        <dd><a href="tel:0722357711" style="color: var(--teal);">072-235-7711</a></dd>
+        <dt>FAX</dt>
+        <dd>072-235-4611</dd>
+        <dt>診療科目</dt>
+        <dd>内科・循環器内科</dd>
+      </dl>
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps?q=大阪府堺市中区大野芝町180&output=embed"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Online -->
+<section id="online">
+  <div class="container">
+    <p class="section-label">Online</p>
+    <h2 class="section-title">オンラインサービス</h2>
+    <div class="section-divider"></div>
+    <div class="online-grid">
+      <div class="online-card">
+        <h3>💻 オンライン診療</h3>
+        <p>デジスマ診療を利用したオンライン診療に対応しています。ご自宅から診察を受けていただけます。</p>
+      </div>
+      <div class="online-card">
+        <h3>📋 スマート問診</h3>
+        <p>Ubieのスマートフォン問診を導入。来院前に症状を入力することで、スムーズな受診が可能です。</p>
+      </div>
+      <div class="online-card">
+        <h3>🥗 オンライン栄養指導</h3>
+        <p>管理栄養士によるオンライン栄養指導サービスをご利用いただけます。生活習慣病の改善をサポートします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p class="footer-logo">神元クリニック</p>
+  <p>〒599-8233 大阪府堺市中区大野芝町180 神工ビル2F</p>
+  <p style="margin-top: 0.5rem;">
+    <a href="tel:0722357711">072-235-7711</a> ／ Fax: 072-235-4611
+  </p>
+  <p style="margin-top: 1.5rem; font-size: 0.75rem;">© 2024 神元クリニック. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

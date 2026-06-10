@@ -508,7 +508,7 @@
 
 
 <script>
-  // ── Particle animation ──
+  // ── Network constellation animation ──
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
 
@@ -519,35 +519,78 @@
   resize();
   window.addEventListener('resize', resize);
 
-  const PARTICLE_COUNT = 80;
-  const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+  const NODE_COUNT = 60;
+  const CONNECT_DIST = 160;
+  let mouse = { x: null, y: null };
+
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+  const nodes = Array.from({ length: NODE_COUNT }, () => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    r: Math.random() * 2 + 0.5,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: -Math.random() * 0.5 - 0.2,
-    alpha: Math.random() * 0.5 + 0.1,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    r: Math.random() * 2 + 1,
   }));
 
-  function drawParticles() {
+  function drawNetwork() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
+
+    // Draw connections
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.35;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(130, 210, 230, ${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+
+      // Connect to mouse
+      if (mouse.x !== null) {
+        const dx = nodes[i].x - mouse.x;
+        const dy = nodes[i].y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST * 1.5) {
+          const alpha = (1 - dist / (CONNECT_DIST * 1.5)) * 0.6;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(180, 240, 255, ${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw nodes
+    nodes.forEach(n => {
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(180, 230, 240, ${p.alpha})`;
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(160, 220, 240, 0.7)';
       ctx.fill();
 
-      p.x += p.vx;
-      p.y += p.vy;
-
-      // reset when out of view
-      if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
-      if (p.x < -5) p.x = canvas.width + 5;
-      if (p.x > canvas.width + 5) p.x = -5;
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
+      if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
     });
-    requestAnimationFrame(drawParticles);
+
+    requestAnimationFrame(drawNetwork);
   }
-  drawParticles();
+  drawNetwork();
 
   // ── Scroll fade-in animation
   const observer = new IntersectionObserver((entries) => {

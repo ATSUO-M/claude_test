@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>診療機器のご紹介 | 神元クリニック</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a2e44;
+      --teal: #2a7d7b;
+      --teal-light: #3a9d9b;
+      --sand: #f5f0e8;
+      --white: #ffffff;
+      --gray: #6b7280;
+      --text: #2d3748;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans JP', sans-serif; color: var(--text); background: var(--white); line-height: 1.8; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav-logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--navy); text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--gray);
+      font-size: 0.85rem; letter-spacing: 0.05em;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── Page Hero ── */
+    .page-hero {
+      padding-top: 80px;
+      background: linear-gradient(135deg, var(--navy) 0%, #2a4a6b 60%, var(--teal) 100%);
+      padding-bottom: 4rem;
+      text-align: center;
+    }
+    .page-hero-inner { padding: 3rem 2rem 1rem; }
+    .page-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.85);
+      font-size: 0.75rem; letter-spacing: 0.15em;
+      padding: 0.35rem 1rem; border-radius: 2rem;
+      margin-bottom: 1.2rem;
+    }
+    .page-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300; color: white;
+      letter-spacing: 0.04em; margin-bottom: 1rem;
+    }
+    .page-desc {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem; font-weight: 300;
+      max-width: 560px; margin: 0 auto;
+    }
+
+    /* ── Main content ── */
+    main { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem; }
+
+    /* ── Category ── */
+    .category { margin-bottom: 5rem; }
+    .category-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--teal);
+    }
+    .category-icon { font-size: 1.6rem; }
+    .category-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.3rem; font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* ── Equipment grid ── */
+    .equipment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .equipment-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      padding: 1.8rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .equipment-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--teal);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .equipment-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
+    .equipment-card:hover::before { transform: scaleX(1); }
+    .equipment-name {
+      font-size: 1rem; font-weight: 500;
+      color: var(--navy); margin-bottom: 0.3rem;
+    }
+    .equipment-model {
+      font-size: 0.78rem; color: var(--teal);
+      margin-bottom: 0.8rem; font-weight: 400;
+    }
+    .equipment-desc {
+      font-size: 0.875rem; color: var(--gray);
+      font-weight: 300; line-height: 1.7;
+    }
+
+    /* ── Fade up animation ── */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Back link ── */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--teal); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      margin-bottom: 3rem;
+      transition: gap 0.2s;
+    }
+    .back-link:hover { gap: 0.8rem; }
+
+    /* ── Footer ── */
+    footer {
+      background: #0f1e2e; color: rgba(255,255,255,0.5);
+      padding: 3rem; text-align: center;
+    }
+    footer .footer-logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.2rem; color: var(--white); margin-bottom: 0.5rem;
+    }
+    footer p { font-size: 0.8rem; font-weight: 300; }
+    footer a { color: var(--teal-light); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      main { padding: 3rem 1.5rem; }
+      .equipment-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="index.html">神元クリニック</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">クリニックについて</a></li>
+    <li><a href="index.html#services">診療内容</a></li>
+    <li><a href="index.html#hours">診療時間</a></li>
+    <li><a href="index.html#access">アクセス</a></li>
+    <li><a href="examination.html" style="color: var(--teal);">診療機器</a></li>
+  </ul>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-tag">Equipment</span>
+    <h1 class="page-title">診療機器のご紹介</h1>
+    <p class="page-desc">神元クリニックでは最新の診療機器を導入し、正確な診断と質の高い医療を提供しています。</p>
+  </div>
+</div>
+
+<!-- Main -->
+<main>
+  <a class="back-link" href="index.html">← トップページに戻る</a>
+
+  <!-- 画像診断 -->
+  <div class="category fade-up">
+    <div class="category-header">
+      <span class="category-icon">🔬</span>
+      <h2 class="category-title">画像診断</h2>
+    </div>
+    <div class="equipment-grid">
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">全身用80列CTスキャン</p>
+        <p class="equipment-model">Canon Aquilion Lightning TSX-036A</p>
+        <p class="equipment-desc">X線を利用して体の断面を撮影することで、病気の有無や広がりを詳しく調べる検査です。短時間で全身撮影が可能で、痛みはありません。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">一般X線撮影装置</p>
+        <p class="equipment-model">Canon MRAD-A20SC R-mini</p>
+        <p class="equipment-desc">胸部・腹部・骨などを撮影し、肺炎や骨折などの異常を調べます。診断や治療方針の決定に役立てています。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">超音波検査</p>
+        <p class="equipment-model">キャノン製</p>
+        <p class="equipment-desc">腹部・心臓・甲状腺・頸動脈・末梢動静脈の検査が可能です。心臓の形態、血行動態、腹部臓器の観察ができます。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">骨密度測定</p>
+        <p class="equipment-model">アロカ Dichroma Scan</p>
+        <p class="equipment-desc">手指骨のX線撮影により骨粗鬆症の診断を行い、経過観察に活用しています。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 血液・代謝 -->
+  <div class="category fade-up">
+    <div class="category-header">
+      <span class="category-icon">🩸</span>
+      <h2 class="category-title">血液・代謝</h2>
+    </div>
+    <div class="equipment-grid">
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">全自動血球計数・免疫反応測定装置</p>
+        <p class="equipment-model">日本光電 MEK-1303 セルタックα＋</p>
+        <p class="equipment-desc">少量の採血で、白血球の種類を含む血液20項目とCRPを同時に測定できます。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">一般生化学分析装置</p>
+        <p class="equipment-model">FUJIFILM 富士ドライケムNX600</p>
+        <p class="equipment-desc">肝機能、腎機能、脂質などを検査し、当日中に結果をご確認いただけます。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">ヘモグロビンA1c測定器</p>
+        <p class="equipment-model">三和化学研究所 A1c iGear Quick S</p>
+        <p class="equipment-desc">血液中のHbA1c（過去1〜2か月の平均血糖値）を測定し、糖尿病の診断・治療効果の確認に有用です。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">フラッシュグルコースモニタリング</p>
+        <p class="equipment-model">アボット FreeStyle リブレ</p>
+        <p class="equipment-desc">最長14日間にわたって血糖をリアルタイムで表示。継続的な血糖管理をサポートします。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">プロトロンビン時間測定装置</p>
+        <p class="equipment-model">ロシュ コアグチェックXS</p>
+        <p class="equipment-desc">心房細動治療薬ワーファリンの効果を測定し、適切な投薬管理に活用しています。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 循環器・心臓 -->
+  <div class="category fade-up">
+    <div class="category-header">
+      <span class="category-icon">❤️</span>
+      <h2 class="category-title">循環器・心臓</h2>
+    </div>
+    <div class="equipment-grid">
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">心電図検査</p>
+        <p class="equipment-model">Kenz Cardico1211</p>
+        <p class="equipment-desc">心臓の電気信号をグラフ化し、心臓機能の正常性を判定します。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">ホルター心電図（2週間）</p>
+        <p class="equipment-model">フクダ電子 WR-100</p>
+        <p class="equipment-desc">最長14日装着可能なパッチ型ホルター心電図です。防水仕様で入浴中も装着可能です。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">ホルター心電図（24時間）</p>
+        <p class="equipment-model">フクダ電子 FM-150</p>
+        <p class="equipment-desc">24時間連続記録で、不整脈や狭心症の発見に活用しています。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">携帯型心電図</p>
+        <p class="equipment-model">OMRON HCG-801 / HCG-8060T</p>
+        <p class="equipment-desc">動悸や胸痛時に即座に記録できます。心電図波形・心拍数の表示と自動解析機能を搭載しています。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">動脈血酸素飽和度測定</p>
+        <p class="equipment-model">村中医療機 パルスオキシメータ</p>
+        <p class="equipment-desc">指先に装着して動脈中の酸素飽和度を測定します。呼吸状態の把握に役立ちます。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">AED（自動体外式除細動器）</p>
+        <p class="equipment-model">PHILLIPS ハートスタート FRx+e</p>
+        <p class="equipment-desc">未就学児用キーを搭載した音声ガイド付きAEDです。緊急時の初期対応に備えています。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 感染症 -->
+  <div class="category fade-up">
+    <div class="category-header">
+      <span class="category-icon">🧬</span>
+      <h2 class="category-title">感染症（PCR関連）</h2>
+    </div>
+    <div class="equipment-grid">
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">SARS-CoV-2検出用リアルタイムRT-PCR</p>
+        <p class="equipment-model">島津製作所 AutoAmp</p>
+        <p class="equipment-desc">唾液検体で約2時間でコロナウィルスを高感度で検出します。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">SARS-CoV-2検出用等温核酸増幅装置</p>
+        <p class="equipment-model">abbott ID NOW™</p>
+        <p class="equipment-desc">鼻腔粘膜検体で約15分でコロナウィルスをPCR法と同様の高感度で検出します。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 呼吸器・耳鼻 -->
+  <div class="category fade-up">
+    <div class="category-header">
+      <span class="category-icon">🫁</span>
+      <h2 class="category-title">呼吸器・耳鼻</h2>
+    </div>
+    <div class="equipment-grid">
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">呼吸機能検査</p>
+        <p class="equipment-model">FUKUDA電子 SPIROSIFT SP310</p>
+        <p class="equipment-desc">肺機能が正常に働いているかを検査します。慢性閉塞性肺疾患（COPD）などの診断に役立てています。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">呼気NOモニター</p>
+        <p class="equipment-model">HARADA NObreath V2</p>
+        <p class="equipment-desc">吐いた息に含まれる一酸化窒素（NO）の量を測定し、気道の炎症状態を調べます。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">オージオメーター</p>
+        <p class="equipment-model">MINATO スマートオージオSA-1</p>
+        <p class="equipment-desc">高音域・低音域に分けて聴力を測定します。</p>
+      </div>
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">呼気一酸化炭素測定器</p>
+        <p class="equipment-model">ピコ スモーカーライザー</p>
+        <p class="equipment-desc">呼気中の一酸化炭素濃度を測定し、禁煙指導に使用しています。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 認知症 -->
+  <div class="category fade-up">
+    <div class="category-header">
+      <span class="category-icon">🧠</span>
+      <h2 class="category-title">認知症関連</h2>
+    </div>
+    <div class="equipment-grid">
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">神経心理検査用プログラム</p>
+        <p class="equipment-model">大塚製薬 ミレボ</p>
+        <p class="equipment-desc">タブレットを使って約3分で行える認知機能チェックです。認知症の早期発見に役立てています。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- その他 -->
+  <div class="category fade-up">
+    <div class="category-header">
+      <span class="category-icon">🧪</span>
+      <h2 class="category-title">その他の検体検査</h2>
+    </div>
+    <div class="equipment-grid">
+      <div class="equipment-card fade-up">
+        <p class="equipment-name">各種検体検査</p>
+        <p class="equipment-model"></p>
+        <p class="equipment-desc">血液・尿・喀痰・糞便などの検体検査が可能です。血液検査は翌朝に結果をお返しします。</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <p class="footer-logo">神元クリニック</p>
+  <p>〒599-8233 大阪府堺市中区大野芝町180 神工ビル2F</p>
+  <p style="margin-top: 0.5rem;">
+    <a href="tel:0722357711">072-235-7711</a> ／ Fax: 072-235-4611
+  </p>
+  <p style="margin-top: 1.5rem; font-size: 0.75rem;">© 2024 神元クリニック. All rights reserved.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

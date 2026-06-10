@@ -27,6 +27,22 @@
       line-height: 1.8;
     }
 
+    /* ── Gradient Text Animation ── */
+    @keyframes gradientFlow {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .gradient-text {
+      background: linear-gradient(270deg, #ffffff, #7ee8e8, #a8edea, #ffffff, #5bb8d4);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientFlow 5s ease infinite;
+    }
+
     /* ── Nav ── */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
@@ -313,7 +329,7 @@
   <div class="hero-inner">
     <span class="hero-tag">内科 ・ 循環器内科</span>
     <h1 class="hero-title">
-      <strong>神元クリニック</strong>
+      <strong class="gradient-text">神元クリニック</strong>
       地域に寄り添う、<br>かかりつけ医として。
     </h1>
     <p class="hero-sub">
